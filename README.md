@@ -12,5 +12,6 @@ picture:
 http://prntscr.com/f8jl5n
 
 Direct link to the picture:
-https://image.prntscr.com/image/e039712321524ba6bd71d1e2aa410f8a.png
+
+![Alt text](https://image.prntscr.com/image/e039712321524ba6bd71d1e2aa410f8a.png "Starcraft 1 Bot thingy")
 
