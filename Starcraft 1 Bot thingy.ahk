@@ -1,9 +1,14 @@
+
 ;http://prntscr.com/f8jl5n
  
 ;floowsnaake
-;starcraft 1.18.5.1581 - bot thingy :P
+;starcraft 1.18.6.1655 - bot thingy :P
 ; https://github.com/floowsnaake
 
+
+; https://github.com/floowsnaake/
+; https://pastebin.com/j9814k1Y
+; https://autohotkey.com/
 
 IF NOT A_IsAdmin
 {
@@ -22,27 +27,38 @@ CoordMode, Mouse, Client
 CoordMode, Pixel, Client
 CoordMode, ToolTip, Client
 
-Minerals = 0x00CBA088
-Units = 0x00CBA049
-MaxUnits = 0x00CBA04C
+SetWorkingDir, %A_ScriptDir%
+
+IniRead,Minerals,Starcraft Pointers.ini,Pointers,Minerals
+IniRead,Gas,Starcraft Pointers.ini,Pointers,Gas
+IniRead,Units,Starcraft Pointers.ini,Pointers,Units ;buggy
+IniRead,MaxUnits,Starcraft Pointers.ini,Pointers,MaxUnits
+
+/*
+Minerals = 0x016F258C
+Gas = 0x016F2590
+Units = 0x01698074
+MaxUnits = 0x016F25BC
+
+*/
 
 Gui, GUI_Overlay:New, +AlwaysOnTop +hwndGUI_Overlay_hwnd
     ;Gui, Margin, 10, 10
     Gui, Font, s10 q4, Segoe UI Bold
     Gui, Add, Text, w200  vTEXT_Timer cBlue,
     Gui, Add, Text, w200  vTEXT_Timer2 cBlue, 
-Gui, Add, Text, w200  vTEXT_Timer3 cBlue, 
-
+    Gui, Add, Text, w200  vTEXT_Timer3 cBlue, 
+    Gui, Add, Text, w250  vTEXT_Timer4 cBlue, 
     Gui, Color, 000000
     WinSet, Transparent, 220
     Winset, AlwaysOnTop, on
     Gui, Show, Hide, Overlay
  
   
-    Gui, GUI_Overlay:Show, NoActivate, FLK
+    Gui, GUI_Overlay:Show, NoActivate, starcraft 1.18.6.1655
   
 
-SetTimer,UpdateMemory,1000
+SetTimer,UpdateMemory,500
 
 Sleep, 200
  Home:   
@@ -50,13 +66,15 @@ Sleep, 200
 return
 
 UpdateMemory:
-Minerals_GUI = % MemoryRead(hwnd, Minerals, "str",4)
-Units_GUI = % MemoryRead(hwnd, Units, "str",3)
+Minerals_GUI = % MemoryRead(hwnd, Minerals, "int",4)
+Gas_GUI = % MemoryRead(hwnd, Gas, "int",4)
+Units_GUI = % MemoryRead(hwnd, Units, "int",4)
 MaxUnits_GUI = % MemoryRead(hwnd, MaxUnits, "str",3)
 
 GuiControl, GUI_Overlay:, TEXT_Timer,Minerals: %Minerals_GUI%
-GuiControl, GUI_Overlay:, TEXT_Timer2,Units: %Units_GUI%
-GuiControl, GUI_Overlay:, TEXT_Timer3,MaxUnits: %MaxUnits_GUI%
+GuiControl, GUI_Overlay:, TEXT_Timer2,Gas: %Gas_GUI%
+GuiControl, GUI_Overlay:, TEXT_Timer3,Units: %Units_GUI%
+GuiControl, GUI_Overlay:, TEXT_Timer4,MaxUnits: %MaxUnits_GUI%
 return
 
 ; ==================================================
