@@ -1,5 +1,6 @@
 
 ;http://prntscr.com/f8jl5n
+ ; http://prntscr.com/f9dn3u
  
 ;floowsnaake
 ;starcraft 1.18.6.1655 - bot thingy :P
@@ -31,19 +32,11 @@ SetWorkingDir, %A_ScriptDir%
 
 IniRead,Minerals,Starcraft Pointers.ini,Pointers,Minerals
 IniRead,Gas,Starcraft Pointers.ini,Pointers,Gas
-IniRead,Units,Starcraft Pointers.ini,Pointers,Units ;buggy
+IniRead,Units,Starcraft Pointers.ini,Pointers,Units
 IniRead,MaxUnits,Starcraft Pointers.ini,Pointers,MaxUnits
 
-/*
-Minerals = 0x016F258C
-Gas = 0x016F2590
-Units = 0x01698074
-MaxUnits = 0x016F25BC
-
-*/
 
 Gui, GUI_Overlay:New, +AlwaysOnTop +hwndGUI_Overlay_hwnd
-    ;Gui, Margin, 10, 10
     Gui, Font, s10 q4, Segoe UI Bold
     Gui, Add, Text, w200  vTEXT_Timer cBlue,
     Gui, Add, Text, w200  vTEXT_Timer2 cBlue, 
@@ -68,13 +61,20 @@ return
 UpdateMemory:
 Minerals_GUI = % MemoryRead(hwnd, Minerals, "int",4)
 Gas_GUI = % MemoryRead(hwnd, Gas, "int",4)
-Units_GUI = % MemoryRead(hwnd, Units, "int",4)
-MaxUnits_GUI = % MemoryRead(hwnd, MaxUnits, "str",3)
+Units_GUI = % MemoryRead(hwnd, Units, "str",8)
+MaxUnits_GUI = % MemoryRead(hwnd, MaxUnits, "str",8)
+
+LastSlash := InStr(Units_GUI,"/",0,0)
+Units_Fixed_GUI := SubStr(Units_GUI,1,LastSlash-1)
+
+LastSlash := InStr(MaxUnits_GUI,"/",0,0)
+MaxUnits_Fixed_GUI := SubStr(MaxUnits_GUI,-1,LastSlash+2)
+
 
 GuiControl, GUI_Overlay:, TEXT_Timer,Minerals: %Minerals_GUI%
 GuiControl, GUI_Overlay:, TEXT_Timer2,Gas: %Gas_GUI%
-GuiControl, GUI_Overlay:, TEXT_Timer3,Units: %Units_GUI%
-GuiControl, GUI_Overlay:, TEXT_Timer4,MaxUnits: %MaxUnits_GUI%
+GuiControl, GUI_Overlay:, TEXT_Timer3,Units: %Units_Fixed_GUI%
+GuiControl, GUI_Overlay:, TEXT_Timer4,MaxUnits: %MaxUnits_Fixed_GUI%
 return
 
 ; ==================================================
